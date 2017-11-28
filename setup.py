@@ -1,7 +1,5 @@
 #from distutils.core import setup
 from setuptools import setup, find_packages
-from Cython.Build import cythonize
-import numpy as np
 
 setup(
     name = 'Pyfitting',
@@ -9,9 +7,9 @@ setup(
     version = 0.9,
 
     long_description = "Linear and non-linear fitting in python, made easy",
-    url = "https://github.com/jeppe742/pyfit",
-    author = "Jeppe Johan Waarkjær Olsen",
-    install_requires=['autodiff'],
+    url = "https://github.com/jeppe742/pyfitting",
+    author = "Jeppe Johan Waarkjaer Olsen",
+    install_requires=['autodiff', 'numpy', 'matplotlib'],
     packages = find_packages(),
 
 )
