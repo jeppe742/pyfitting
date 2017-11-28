@@ -1,0 +1,6 @@
+numpy
+wheel
+pytest
+twine
+matplotlib
+autodiff

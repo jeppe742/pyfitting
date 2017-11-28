@@ -1,0 +1,69 @@
+environment:
+
+  global:
+    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
+    # /E:ON and /V:ON options are not enabled in the batch script intepreter
+    # See: http://stackoverflow.com/a/13751649/163740
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C run_with_env.cmd"
+
+  PYPIPASSWORD:
+    secure: I0lJyptDhrqUEKpftZYJjA==
+
+  matrix:
+    - PYTHON: "c:\\Python27"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "c:\\Python27-x64"
+      PYTHON_VERSION: "2.7.x"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "c:\\Python35"
+      PYTHON_VERSION: "3.5.x"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "c:\\Python35-x64"
+      PYTHON_VERSION: "3.5.x"
+      PYTHON_ARCH: "64"
+
+    - PYTHON: "c:\\Python36"
+      PYTHON_VERSION: "3.6.x"
+      PYTHON_ARCH: "32"
+
+    - PYTHON: "c:\\Python36-x64" 
+      PYTHON_VERSION: "3.6.x"
+      PYTHON_ARCH: "64"
+
+install:
+
+   # Install Python (from the official .msi of http://python.org) and pip when
+  # not already installed.
+  - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
+
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  # Upgrade to the latest version of pip to avoid it displaying warnings
+  # about it being out of date.
+  - "pip install --disable-pip-version-check --user --upgrade pip"
+
+  - "%CMD_IN_ENV% python.exe -m pip install -r requirements.txt"
+
+build_script:
+  - "%CMD_IN_ENV% python setup.py install"
+
+test_script:
+  - py.test
+
+after_test:
+  - "%CMD_IN_ENV% python.exe setup.py bdist_wheel --universal"
+artifacts:
+  - path: dist\*
+
+# on_success:
+#   - echo [distutils] > %USERPROFILE%\\.pypirc
+#   - echo index-servers = >> %USERPROFILE%\\.pypirc
+#   - echo     pypi >> %USERPROFILE%\\.pypirc
+#   - echo [pypi] >> %USERPROFILE%\\.pypirc
+#   - echo username=jeppe742 >> %USERPROFILE%\\.pypirc
+#   - echo password=%PYPIPASSWORD% >> %USERPROFILE%\\.pypirc
+#   - set HOME=%USERPROFILE%
+#   - "%PYTHON%\\python.exe setup.py bdist_wheel upload && exit 0"
