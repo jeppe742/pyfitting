@@ -1,2 +1,2 @@
-from .modules.fit import linfit, nonlinfit
-from .modules.gui import cftool
+from .gui import cftool
+from .fit import linfit, nonlinfit

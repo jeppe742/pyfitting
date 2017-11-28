@@ -3,13 +3,18 @@ matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 import matplotlib.gridspec as gridspec
-import tkinter as Tk
+
 from numpy import arange
 from autodiff import *
 import numpy as np
 from fit import nonlinfit, linfit
 
-def cftool(x, y, yerr=None, num_points=1000):
+try:
+    import tkinter as Tk
+except:
+    import Tkinter as Tk
+
+def cftool(x, y, yerr=None, num_points=1000, tol=1e-11, maxiter=50):
     """
     Opens the gui for fitting
 
@@ -46,8 +51,11 @@ def cftool(x, y, yerr=None, num_points=1000):
     chi2_text.pack(side = Tk.LEFT)
     
 
-    def fitlindata():
-        fit = linfit(x,y,yerr) 
+    def _fitlindata():
+        """
+        Internal function to c
+        """
+        fit = linfit(x,y,yerr, tol, maxiter) 
         #Update UI with the value of chi2
         chi2_text.delete("0",Tk.END)
         chi2_text.insert(Tk.INSERT,"%0.3f"%fit['chi2_red'])
@@ -91,7 +99,7 @@ def cftool(x, y, yerr=None, num_points=1000):
         for i in range(len(param)):
             func_label = func_label.replace('p['+str(i)+']','%0.4f')
 
-        fit = nonlinfit(func, x, y, param, yerr=yerr)
+        fit = nonlinfit(func, x, y, param, yerr=yerr, tol=tol, maxiter=maxiter)
 
         #Update UI with the value of chi2
         chi2_text.delete("0",Tk.END)
@@ -155,7 +163,7 @@ def cftool(x, y, yerr=None, num_points=1000):
     toolbar.update()
     canvas._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
 
-    fitlindata()
+    _fitlindata()
     Tk.mainloop()
     
 if __name__ == '__main__':

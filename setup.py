@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
     name = 'Pyfitting',
 
-    version = 0.9,
+    version = "0.9.1",
 
     long_description = "Linear and non-linear fitting in python, made easy",
     url = "https://github.com/jeppe742/pyfitting",
