@@ -74,6 +74,9 @@ p_start = [1, 1]
 fit = nonlinfit(f, x, y, yerr=yerr)
 ```
 
-## Additional
-nonlinfit has parameters for the tolerence `tol`, which describes how much each iteration should change before we assume convergenec, and `maxiter` which is the maximum times of iterations, before we stop the optimization.
-`tol` has a default value of 1e-11 and `maxiter` has 50
+## Additional parameters
+`nonlinfit` has two additional parameters
+- `tol` : describes how much each iteration should change before we assume convergence  
+default value is 1e-11
+- `maxiter` : which is the maximum times of iterations, before we stop the optimization.  
+default value is 50
