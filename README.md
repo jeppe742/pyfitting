@@ -1,7 +1,7 @@
 # Pyfitting - Linear and non-linear fitting in python
 
 ## Installation
-![WINDOWS](https://ci.appveyor.com/api/projects/status/cfl5wo6adujm7bac?svg=true)  
+![WINDOWS](https://ci.appveyor.com/api/projects/status/1soo9ttlod4ruy7r/branch/master?svg=true)  
 To install pyfitting, simply run  
 `pip install pyfitting`
 
